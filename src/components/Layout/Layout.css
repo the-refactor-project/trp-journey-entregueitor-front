@@ -5,7 +5,7 @@
   margin: 0 auto;
 
   &:is(#root > *) {
-    padding-top: var(--height-header-desktop);
+    padding-top: calc(var(--height-header-desktop) + 20px);
     padding-bottom: var(--page-padding-bottom);
   }
 }

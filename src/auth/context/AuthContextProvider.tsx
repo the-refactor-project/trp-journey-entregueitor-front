@@ -25,14 +25,16 @@ const AuthContextProvider: React.FC<PropsWithChildren> = ({ children }) => {
       hasFinishedChecking: false,
       isLoggedIn: false,
       username: "",
-      userMaxChallenge: 0,
+      userMaxWeek: 0,
       role: "student",
     }),
     []
   );
 
   const removeHash = useCallback(() => {
-    navigate(window.location.pathname, { replace: true });
+    if (window.location.href.endsWith("#")) {
+      navigate(window.location.pathname, { replace: true });
+    }
   }, [navigate]);
 
   const [authInfo, setAuthInfo] =
@@ -62,7 +64,7 @@ const AuthContextProvider: React.FC<PropsWithChildren> = ({ children }) => {
         const user = await getAuthenticatedUser();
 
         await flagsmith.identify(user?.user_metadata.user_name);
-        const maxChallenge = flagsmith.getValue("challenge-number");
+        const maxWeek = flagsmith.getValue("project-number");
         const isAdmin =
           user?.user_metadata.user_name === "the-refactor-project";
 
@@ -70,7 +72,7 @@ const AuthContextProvider: React.FC<PropsWithChildren> = ({ children }) => {
           hasFinishedChecking: true,
           isLoggedIn: true,
           role: isAdmin ? "admin" : "student",
-          userMaxChallenge: Number(maxChallenge),
+          userMaxWeek: Number(maxWeek),
           username: user?.user_metadata.user_name,
         });
 

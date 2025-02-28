@@ -4,12 +4,13 @@ import DeliveriesPage from "../delivery/pages/DeliveriesPage/DeliveriesPage";
 import LoginPage from "../auth/pages/LoginPage/LoginPage";
 import AuthPreventGuard from "../auth/components/AuthPreventGuard/AuthPreventGuard";
 import AuthAllowGuard from "../auth/components/AuthAllowGuard/AuthAllowGuard";
+import NotFoundPage from "../NotFoundPage/NotFoundPage";
 
 const AppRouter: React.FC = () => {
   return (
     <Routes>
       <Route path="/" element={<App />}>
-        <Route index element={<Navigate to="/deliveries" />} />
+        <Route index element={<Navigate to="/deliveries/week-1" />} />
         <Route
           path="login"
           element={
@@ -19,13 +20,14 @@ const AppRouter: React.FC = () => {
           }
         />
         <Route
-          path="deliveries"
+          path="deliveries/:week"
           element={
             <AuthAllowGuard>
               <DeliveriesPage />
             </AuthAllowGuard>
           }
         />
+        <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>
   );

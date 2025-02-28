@@ -4,7 +4,7 @@ export interface AuthGetInfoContextValue {
   hasFinishedChecking: boolean;
   isLoggedIn: boolean;
   username: string;
-  userMaxChallenge: number;
+  userMaxWeek: number;
   role: Role;
 }
 

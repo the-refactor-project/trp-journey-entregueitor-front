@@ -8,7 +8,7 @@ const AuthPreventGuard: React.FC<PropsWithChildren> = ({ children }) => {
 
   useEffect(() => {
     if (hasFinishedChecking && isLoggedIn) {
-      navigate("/deliveries/challenge-1");
+      navigate("/deliveries/week-1");
     }
   }, [isLoggedIn, hasFinishedChecking, navigate]);
 
