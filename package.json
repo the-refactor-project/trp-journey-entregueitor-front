@@ -12,6 +12,8 @@
   "dependencies": {
     "@fontsource-variable/roboto-flex": "^5.1.1",
     "@supabase/supabase-js": "^2.49.1",
+    "@tanstack/react-query": "^5.66.11",
+    "axios": "^1.8.1",
     "flagsmith": "^9.0.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
