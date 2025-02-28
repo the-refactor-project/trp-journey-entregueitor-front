@@ -1,8 +1,13 @@
 import { Link } from "react-router";
 import Button from "../Button/Button";
+import useAuthSetInfoContext from "../../auth/context/useAuthSetInfoContext";
 import "./Header.css";
+import useAuthGetInfoContext from "../../auth/context/useAuthGetInfoContext";
 
 const Header: React.FC = () => {
+  const { isLoggedIn } = useAuthGetInfoContext();
+  const { logout } = useAuthSetInfoContext();
+
   return (
     <header className="main-header">
       <div className="container">
@@ -16,11 +21,13 @@ const Header: React.FC = () => {
           />
         </Link>
         <h1 className="main-title">Bootcamp - Entregueitor Journey</h1>
-        <div className="logout-container">
-          <Button buttonType="inline" size="small" onClick={() => {}}>
-            Cerrar sesión
-          </Button>
-        </div>
+        {isLoggedIn && (
+          <div className="logout-container">
+            <Button buttonType="inline" size="small" onClick={logout}>
+              Cerrar sesión
+            </Button>
+          </div>
+        )}
       </div>
     </header>
   );
