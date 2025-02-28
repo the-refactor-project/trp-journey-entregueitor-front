@@ -1,0 +1,42 @@
+.main-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  height: var(--height-header);
+  padding: 10px 0;
+  z-index: 2;
+
+  > * {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    @media (min-width: 845px) {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      align-items: center;
+      height: 100%;
+    }
+  }
+
+  @media (min-width: 845px) {
+    height: var(--height-header-desktop);
+  }
+
+  img {
+    display: block;
+  }
+}
+
+.main-title {
+  font-size: 1.2rem;
+  font-weight: normal;
+  margin: 0;
+  text-align: center;
+}
+
+.logout-container {
+  text-align: right;
+}

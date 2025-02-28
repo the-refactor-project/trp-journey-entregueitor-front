@@ -1,0 +1,38 @@
+.button {
+  transition: all 0.3s ease-in-out;
+  text-decoration: none;
+  border-radius: 5px;
+  border: 1px solid var(--color-primary);
+  width: auto;
+}
+
+.button--inline {
+  background-color: transparent;
+  color: var(--color-primary);
+
+  &:hover,
+  &:focus {
+    background-color: var(--color-primary);
+    color: var(--color-secondary);
+  }
+}
+
+.button--solid {
+  background-color: var(--color-primary);
+  color: var(--color-secondary);
+
+  &:hover,
+  &:focus {
+    background-color: transparent;
+    color: var(--color-primary);
+  }
+}
+
+.button--small {
+  font-size: 0.8rem;
+  padding: 5px 10px;
+}
+
+.button--medium {
+  padding: 10px 20px;
+}

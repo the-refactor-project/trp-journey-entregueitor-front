@@ -1,5 +1,7 @@
+import Layout from "../Layout/Layout";
+
 const App: React.FC = () => {
-  return <p>Holi</p>;
+  return <Layout />;
 };
 
 export default App;

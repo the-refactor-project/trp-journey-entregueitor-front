@@ -1,0 +1,11 @@
+.container {
+  max-width: var(--width-container);
+  padding-left: 20px;
+  width: 90%;
+  margin: 0 auto;
+
+  &:is(#root > *) {
+    padding-top: var(--height-header-desktop);
+    padding-bottom: var(--page-padding-bottom);
+  }
+}

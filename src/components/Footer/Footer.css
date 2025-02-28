@@ -1,0 +1,17 @@
+.main-footer {
+  height: var(--height-footer);
+  background-color: var(--color-primary);
+  color: var(--color-secondary);
+  z-index: 3;
+
+  > * {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+  }
+
+  a img {
+    display: block;
+  }
+}
