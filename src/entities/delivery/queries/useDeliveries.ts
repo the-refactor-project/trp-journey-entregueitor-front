@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchWithAuth } from "../../client/axios";
 import { Delivery } from "../types";
+import { fetchWithAuth } from "../../../client/axios";
 
 const useDeliveries = (weekNumber: number) => {
   return useQuery({

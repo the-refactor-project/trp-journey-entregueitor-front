@@ -1,20 +1,21 @@
 import { useState } from "react";
 import { NewDeliveryData } from "./types";
+import Button from "../../../../components/Button/Button";
+import useAuthGetInfoContext from "../../../../auth/context/useAuthGetInfoContext";
+import { Student } from "../../../student/types";
 import "./DeliveryForm.css";
-import Button from "../../../components/Button/Button";
-import useAuthGetInfoContext from "../../../auth/context/useAuthGetInfoContext";
 
 interface DeliveryFormProps {
   createDelivery: (deliveryData: NewDeliveryData) => void;
   week: string | null;
+  teamMates: Student[];
 }
 
 const DeliveryForm = ({
   createDelivery,
   week,
+  teamMates,
 }: DeliveryFormProps): React.ReactElement => {
-  const members = ["Alexis", "Guillem"];
-
   const { userMaxWeek } = useAuthGetInfoContext();
 
   const weekNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].filter(
@@ -23,11 +24,15 @@ const DeliveryForm = ({
     }
   );
 
+  const [deliveryType, setDeliveryType] = useState<"individual" | "team">(
+    "individual"
+  );
+
   const newBlankDelivery: NewDeliveryData = {
-    owner: "",
+    ownerId: 0,
     week: week ?? "",
-    firstTeammateName: "",
-    secondTeammateName: "",
+    firstTeammateId: 0,
+    secondTeammateId: 0,
     sprint1TrelloUrl: "",
     sprint2TrelloUrl: "",
     frontRepoUrl: "",
@@ -59,70 +64,28 @@ const DeliveryForm = ({
   return (
     <form className="form" onSubmit={submitForm}>
       <div className="form__group">
-        <label htmlFor="owner" className="form__label">
-          Who you are?
+        <label>
+          <input
+            type="radio"
+            name="deliveryType"
+            id="deliveryType"
+            value="individual"
+            checked={deliveryType === "individual"}
+            onChange={() => setDeliveryType("individual")}
+          />
+          individual
         </label>
-        <select
-          id="owner"
-          className="form__control"
-          value={newDeliveryData.owner}
-          onChange={changeNewDeliveryData}
-          required
-        >
-          <option value="">Choose member</option>
-          {members.map((member) => (
-            <option key={member}>{member}</option>
-          ))}
-        </select>
-      </div>
-      <div className="form__group"></div>
-      <div className="form__group">
-        {newDeliveryData.owner !== "" && (
-          <>
-            <label htmlFor="firstTeammateName" className="form__label">
-              Partner 1?
-            </label>
-            <select
-              id="firstTeammateName"
-              className="form__control"
-              value={newDeliveryData.firstTeammateName}
-              onChange={changeNewDeliveryData}
-            >
-              <option value="">Choose member</option>
-              {members
-                .filter((member) => member !== newDeliveryData.owner)
-                .map((member) => (
-                  <option key={member}>{member}</option>
-                ))}
-            </select>
-          </>
-        )}
-      </div>
-      <div className="form__group">
-        {newDeliveryData.firstTeammateName !== "" && (
-          <>
-            <label htmlFor="secondTeammateName" className="form__label">
-              Partner 2?
-            </label>
-            <select
-              id="secondTeammateName"
-              className="form__control"
-              value={newDeliveryData.secondTeammateName}
-              onChange={changeNewDeliveryData}
-            >
-              <option value="">Choose member</option>
-              {members
-                .filter(
-                  (member) =>
-                    member !== newDeliveryData.owner &&
-                    member !== newDeliveryData.firstTeammateName
-                )
-                .map((member) => (
-                  <option key={member}>{member}</option>
-                ))}
-            </select>
-          </>
-        )}
+        <label>
+          <input
+            type="radio"
+            name="deliveryType"
+            id="deliveryType"
+            value="team"
+            checked={deliveryType === "team"}
+            onChange={() => setDeliveryType("team")}
+          />
+          team
+        </label>
       </div>
       <div className="form__group">
         <label htmlFor="week" className="form__label">
@@ -143,20 +106,42 @@ const DeliveryForm = ({
           ))}
         </select>
       </div>
-      <div className="form__group">
-        <label htmlFor="sprint1TrelloUrl" className="form__label">
-          Sprint 1 Trello URL
-        </label>
-        <input
-          type="url"
-          id="sprint1TrelloUrl"
-          className="form__control"
-          value={newDeliveryData.sprint1TrelloUrl}
-          onChange={changeNewDeliveryData}
-        />
-      </div>
-      <div className="form__group"></div>
-      <div className="form__group"></div>
+      {deliveryType === "team" && (
+        <>
+          <div className="form__group">
+            <label htmlFor="firstTeammateId" className="form__label">
+              Partner 1?
+            </label>
+            <select
+              id="firstTeammateId"
+              className="form__control"
+              value={newDeliveryData.firstTeammateId}
+              onChange={changeNewDeliveryData}
+            >
+              <option value="">Choose team mate</option>
+              {teamMates.map((teamMate) => (
+                <option key={teamMate.id}>{teamMate.name}</option>
+              ))}
+            </select>
+          </div>
+          <div className="form__group">
+            <label htmlFor="secondTeammateId" className="form__label">
+              Partner 2?
+            </label>
+            <select
+              id="secondTeammateId"
+              className="form__control"
+              value={newDeliveryData.secondTeammateId}
+              onChange={changeNewDeliveryData}
+            >
+              <option value="">Choose team mate</option>
+              {teamMates.map((teamMate) => (
+                <option key={teamMate.id}>{teamMate.name}</option>
+              ))}
+            </select>
+          </div>
+        </>
+      )}
       <div className="form__group">
         <label htmlFor="frontRepoUrl" className="form__label">
           Front Repo URL
@@ -181,8 +166,6 @@ const DeliveryForm = ({
           onChange={changeNewDeliveryData}
         />
       </div>
-      <div className="form__group"></div>
-      <div className="form__group"></div>
       <div className="form__group">
         <label htmlFor="backRepoUrl" className="form__label">
           Back Repo URL
@@ -204,6 +187,30 @@ const DeliveryForm = ({
           id="backProductionUrl"
           className="form__control"
           value={newDeliveryData.backProductionUrl}
+          onChange={changeNewDeliveryData}
+        />
+      </div>
+      <div className="form__group">
+        <label htmlFor="sprint1TrelloUrl" className="form__label">
+          Sprint 1 Trello URL
+        </label>
+        <input
+          type="url"
+          id="sprint1TrelloUrl"
+          className="form__control"
+          value={newDeliveryData.sprint1TrelloUrl}
+          onChange={changeNewDeliveryData}
+        />
+      </div>
+      <div className="form__group">
+        <label htmlFor="sprint2TrelloUrl" className="form__label">
+          Sprint 2 Trello URL
+        </label>
+        <input
+          type="url"
+          id="sprint2TrelloUrl"
+          className="form__control"
+          value={newDeliveryData.sprint2TrelloUrl}
           onChange={changeNewDeliveryData}
         />
       </div>

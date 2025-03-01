@@ -1,11 +1,11 @@
-import { Id, WithoutId } from "../types";
+import { Id, WithoutId } from "../../types";
 
 export interface Delivery {
   id: Id;
-  owner: string;
+  ownerId: Id;
   week: number;
-  firstTeammateName?: string;
-  secondTeammateName?: string;
+  firstTeammateId?: Id;
+  secondTeammateId?: Id;
   frontRepoUrl?: string;
   frontProductionUrl?: string;
   backRepoUrl?: string;

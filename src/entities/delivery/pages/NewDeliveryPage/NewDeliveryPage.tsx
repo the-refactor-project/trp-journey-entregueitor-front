@@ -1,9 +1,12 @@
 import { useSearchParams } from "react-router";
 import DeliveryForm from "../../components/DeliveryForm/DeliveryForm";
 import { NewDeliveryData } from "../../components/DeliveryForm/types";
+import useStudents from "../../../student/queries/useStudents";
 
 const NewDeliveryPage = (): React.ReactElement => {
   const [searchParams] = useSearchParams();
+
+  const { data } = useStudents();
 
   const week = searchParams.get("week");
 
@@ -14,7 +17,13 @@ const NewDeliveryPage = (): React.ReactElement => {
   return (
     <>
       <h2>New delivery</h2>
-      <DeliveryForm createDelivery={onCreateDelivery} week={week} />
+      {data && (
+        <DeliveryForm
+          createDelivery={onCreateDelivery}
+          teamMates={data}
+          week={week}
+        />
+      )}
     </>
   );
 };

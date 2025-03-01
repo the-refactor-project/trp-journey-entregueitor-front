@@ -1,11 +1,11 @@
 import { Navigate, Route, Routes } from "react-router";
 import App from "../components/App/App";
-import DeliveriesPage from "../delivery/pages/DeliveriesPage/DeliveriesPage";
+import DeliveriesPage from "../entities/delivery/pages/DeliveriesPage/DeliveriesPage";
 import LoginPage from "../auth/pages/LoginPage/LoginPage";
 import AuthPreventGuard from "../auth/components/AuthPreventGuard/AuthPreventGuard";
 import AuthAllowGuard from "../auth/components/AuthAllowGuard/AuthAllowGuard";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
-import NewDeliveryPage from "../delivery/pages/NewDeliveryPage/NewDeliveryPage";
+import NewDeliveryPage from "../entities/delivery/pages/NewDeliveryPage/NewDeliveryPage";
 
 const AppRouter: React.FC = () => {
   return (
