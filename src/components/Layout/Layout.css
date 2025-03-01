@@ -9,3 +9,9 @@
     padding-bottom: var(--page-padding-bottom);
   }
 }
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

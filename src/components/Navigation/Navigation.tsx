@@ -3,9 +3,13 @@ import useAuthGetInfoContext from "../../auth/context/useAuthGetInfoContext";
 import "./Navigation.css";
 
 const Navigation: React.FC = () => {
-  const weekNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] as const;
-
   const { isLoggedIn, userMaxWeek, role } = useAuthGetInfoContext();
+
+  const weekNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].filter(
+    (weekNumber) => {
+      return weekNumber <= userMaxWeek;
+    }
+  );
 
   const [searchParams] = useSearchParams();
 
@@ -20,20 +24,14 @@ const Navigation: React.FC = () => {
       <ul>
         {weekNumbers.map((weekNumber) => (
           <li key={weekNumber} className="main-navigation__number">
-            {weekNumber <= userMaxWeek || role === "admin" ? (
-              <NavLink
-                to={`/deliveries/week-${weekNumber}${
-                  role === "admin" ? "?student=" + student : ""
-                }`}
-                className="week-number"
-              >
-                {weekNumber}
-              </NavLink>
-            ) : (
-              <button className="week-number" disabled>
-                {weekNumber}
-              </button>
-            )}
+            <NavLink
+              to={`/deliveries/week-${weekNumber}${
+                role === "admin" ? "?student=" + student : ""
+              }`}
+              className="week-number"
+            >
+              W{weekNumber}
+            </NavLink>
           </li>
         ))}
       </ul>

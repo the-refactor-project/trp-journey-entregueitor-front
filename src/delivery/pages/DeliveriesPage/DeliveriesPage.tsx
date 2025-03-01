@@ -1,4 +1,4 @@
-import { useParams } from "react-router";
+import { Link, useParams } from "react-router";
 import useDeliveries from "../../queries/useDeliveries";
 
 const DeliveriesPage: React.FC = () => {
@@ -10,7 +10,15 @@ const DeliveriesPage: React.FC = () => {
 
   return (
     <>
-      <h2>Entregas</h2>
+      <header className="page-header">
+        <h2>Deliveries</h2>
+        <Link
+          to={`/deliveries/new?week=${weekNumber}`}
+          className="button button--inline button--medium"
+        >
+          New delivery
+        </Link>
+      </header>
       {deliveries && (
         <ul className="deliveries">
           {deliveries?.map((delivery) => (

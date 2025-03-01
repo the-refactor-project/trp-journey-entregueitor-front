@@ -1,15 +1,18 @@
-import { Id } from "../types";
+import { Id, WithoutId } from "../types";
 
 export interface Delivery {
   id: Id;
   owner: string;
-  firstTeammateName: string | null;
-  secondTeammateName: string | null;
-  frontRepoUrl: string | null;
-  frontProductionUrl: string | null;
-  backRepoUrl: string | null;
-  backProductionUrl: string | null;
-  sprint1TrelloUrl: string | null;
-  sprint2TrelloUrl: string | null;
+  week: number;
+  firstTeammateName?: string;
+  secondTeammateName?: string;
+  frontRepoUrl?: string;
+  frontProductionUrl?: string;
+  backRepoUrl?: string;
+  backProductionUrl?: string;
+  sprint1TrelloUrl?: string;
+  sprint2TrelloUrl?: string;
   date: Date;
 }
+
+export type NewDelivery = Omit<WithoutId<Delivery>, "date">;

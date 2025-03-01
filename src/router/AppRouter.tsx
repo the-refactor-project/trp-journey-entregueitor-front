@@ -5,6 +5,7 @@ import LoginPage from "../auth/pages/LoginPage/LoginPage";
 import AuthPreventGuard from "../auth/components/AuthPreventGuard/AuthPreventGuard";
 import AuthAllowGuard from "../auth/components/AuthAllowGuard/AuthAllowGuard";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
+import NewDeliveryPage from "../delivery/pages/NewDeliveryPage/NewDeliveryPage";
 
 const AppRouter: React.FC = () => {
   return (
@@ -24,6 +25,14 @@ const AppRouter: React.FC = () => {
           element={
             <AuthAllowGuard>
               <DeliveriesPage />
+            </AuthAllowGuard>
+          }
+        />
+        <Route
+          path="deliveries/new"
+          element={
+            <AuthAllowGuard>
+              <NewDeliveryPage />
             </AuthAllowGuard>
           }
         />
