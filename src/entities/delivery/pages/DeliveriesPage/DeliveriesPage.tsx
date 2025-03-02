@@ -6,9 +6,13 @@ import useStudents from "../../../student/queries/useStudents";
 import { useEffect, useState } from "react";
 import { DeliveryWithNames } from "../../types";
 import useAuthGetInfoContext from "../../../../auth/context/useAuthGetInfoContext";
+import useSetUiContext from "../../../../ui/context/useUiSetContext";
+import useDeleteDeliveryMutation from "../../mutations/useDeleteDeliveryMutation";
 
 const DeliveriesPage: React.FC = () => {
   const [deliveries, setDeliveries] = useState<DeliveryWithNames[]>([]);
+
+  const { showConfirm } = useSetUiContext();
 
   const { studentId } = useAuthGetInfoContext();
 
@@ -16,10 +20,18 @@ const DeliveriesPage: React.FC = () => {
 
   const weekNumber = Number(week?.split("-")[1]);
 
+  const { mutateAsync } = useDeleteDeliveryMutation(weekNumber);
+
   const { data } = useDeliveriesQuery(weekNumber);
   const { data: students } = useStudents();
 
   const [canCreate, setCanCreate] = useState(false);
+
+  const deleteDelivery = (deliveryId: Id) => {
+    showConfirm("Please confirm you want to delete this delivery", async () => {
+      await mutateAsync(deliveryId);
+    });
+  };
 
   useEffect(() => {
     if (!data || !students) {
@@ -64,9 +76,7 @@ const DeliveriesPage: React.FC = () => {
       {deliveries && (
         <DeliveriesList
           deliveries={deliveries}
-          deleteDelivery={(deliveryId: Id) => {
-            console.log(deliveryId);
-          }}
+          deleteDelivery={deleteDelivery}
         />
       )}
     </>

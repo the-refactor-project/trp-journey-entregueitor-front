@@ -5,10 +5,19 @@ import UiSetContext from "./UiSetContext";
 
 const UiContextProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [info, setInfo] = useState<Omit<UiGetContextValue, "isLoading">>({
+  const [info, setInfo] = useState<
+    Pick<UiGetContextValue, "showInfo" | "infoType" | "infoMessage">
+  >({
     showInfo: false,
     infoType: "info",
     infoMessage: "",
+  });
+  const [confirm, setConfirm] = useState<
+    Pick<UiGetContextValue, "showConfirm" | "confirmText" | "confirmAction">
+  >({
+    showConfirm: false,
+    confirmText: "",
+    confirmAction: () => {},
   });
 
   const uiGetContextValue: UiGetContextValue = useMemo(
@@ -17,8 +26,19 @@ const UiContextProvider: React.FC<PropsWithChildren> = ({ children }) => {
       showInfo: info.showInfo,
       infoType: info.infoType,
       infoMessage: info.infoMessage,
+      showConfirm: confirm.showConfirm,
+      confirmText: confirm.confirmText,
+      confirmAction: confirm.confirmAction,
     }),
-    [info.infoMessage, info.infoType, info.showInfo, isLoading]
+    [
+      confirm.confirmAction,
+      confirm.confirmText,
+      confirm.showConfirm,
+      info.infoMessage,
+      info.infoType,
+      info.showInfo,
+      isLoading,
+    ]
   );
 
   const hideInfo = useCallback(() => {
@@ -46,6 +66,25 @@ const UiContextProvider: React.FC<PropsWithChildren> = ({ children }) => {
     [hideInfo]
   );
 
+  const showConfirm = useCallback(
+    (confirmText: string, confirmAction: () => void) => {
+      setConfirm({
+        showConfirm: true,
+        confirmText,
+        confirmAction,
+      });
+    },
+    []
+  );
+
+  const hideConfirm = useCallback(() => {
+    setConfirm({
+      showConfirm: false,
+      confirmText: "",
+      confirmAction: () => {},
+    });
+  }, []);
+
   const uiSetContextValue: UiSetContextValue = useMemo(
     () => ({
       showLoading: () => {
@@ -56,8 +95,10 @@ const UiContextProvider: React.FC<PropsWithChildren> = ({ children }) => {
       },
       showInfo,
       hideInfo,
+      showConfirm,
+      hideConfirm,
     }),
-    [showInfo, hideInfo]
+    [showInfo, hideInfo, showConfirm, hideConfirm]
   );
 
   return (

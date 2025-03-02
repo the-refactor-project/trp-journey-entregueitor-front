@@ -4,6 +4,7 @@ import Footer from "../Footer/Footer";
 import Navigation from "../Navigation/Navigation";
 import Info from "../../ui/components/Info/Info";
 import "./Layout.css";
+import Confirm from "../../ui/components/Confirm/Confirm";
 
 const Layout: React.FC = () => {
   return (
@@ -18,6 +19,7 @@ const Layout: React.FC = () => {
         </div>
       </div>
       <Footer />
+      <Confirm />
       <Info />
     </>
   );
