@@ -1,6 +1,6 @@
 import { useParams } from "react-router";
 import DeliveryForm from "../../components/DeliveryForm/DeliveryForm";
-import useStudents from "../../../student/queries/useStudents";
+import useStudentsQuery from "../../../student/queries/useStudentsQuery";
 import { NewDelivery } from "../../types";
 import useAuthGetInfoContext from "../../../../auth/context/useAuthGetInfoContext";
 import useDeliveries from "../../hooks/useDeliveries";
@@ -13,7 +13,7 @@ const NewDeliveryPage = (): React.ReactElement => {
 
   const weekNumber = week?.split("-")[1];
 
-  const { data } = useStudents();
+  const { data } = useStudentsQuery();
 
   const { createDelivery } = useDeliveries();
 
@@ -23,6 +23,14 @@ const NewDeliveryPage = (): React.ReactElement => {
       week: Number(weekNumber),
       ownerId: studentId,
     };
+
+    if (deliveryData.firstTeammateId) {
+      newDeliveryData.firstTeammateId = Number(deliveryData.firstTeammateId);
+    }
+
+    if (deliveryData.secondTeammateId) {
+      newDeliveryData.secondTeammateId = Number(deliveryData.secondTeammateId);
+    }
 
     await createDelivery(newDeliveryData);
   };

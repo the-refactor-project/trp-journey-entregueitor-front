@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchWithAuth } from "../../../client/axios";
 import { Student } from "../types";
 
-const useStudents = () => {
+const useStudentsQuery = () => {
   return useQuery({
     queryKey: ["students"],
     queryFn: async () => {
@@ -15,4 +15,4 @@ const useStudents = () => {
   });
 };
 
-export default useStudents;
+export default useStudentsQuery;

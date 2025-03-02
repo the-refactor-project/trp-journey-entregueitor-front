@@ -4,7 +4,6 @@ import UiGetContext from "./UiGetContext";
 import UiSetContext from "./UiSetContext";
 
 const UiContextProvider: React.FC<PropsWithChildren> = ({ children }) => {
-  const [isLoading, setIsLoading] = useState(false);
   const [info, setInfo] = useState<
     Pick<UiGetContextValue, "showInfo" | "infoType" | "infoMessage">
   >({
@@ -22,7 +21,6 @@ const UiContextProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
   const uiGetContextValue: UiGetContextValue = useMemo(
     () => ({
-      isLoading,
       showInfo: info.showInfo,
       infoType: info.infoType,
       infoMessage: info.infoMessage,
@@ -37,7 +35,6 @@ const UiContextProvider: React.FC<PropsWithChildren> = ({ children }) => {
       info.infoMessage,
       info.infoType,
       info.showInfo,
-      isLoading,
     ]
   );
 
@@ -87,12 +84,6 @@ const UiContextProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
   const uiSetContextValue: UiSetContextValue = useMemo(
     () => ({
-      showLoading: () => {
-        setIsLoading(true);
-      },
-      hideLoading: () => {
-        setIsLoading(false);
-      },
       showInfo,
       hideInfo,
       showConfirm,

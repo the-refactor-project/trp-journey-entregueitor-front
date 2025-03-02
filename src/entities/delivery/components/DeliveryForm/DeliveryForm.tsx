@@ -91,7 +91,9 @@ const DeliveryForm = ({
             >
               <option value="">Choose team mate</option>
               {teamMates.map((teamMate) => (
-                <option key={teamMate.id}>{teamMate.name}</option>
+                <option value={teamMate.id} key={teamMate.id}>
+                  {teamMate.name}
+                </option>
               ))}
             </select>
           </div>
@@ -107,7 +109,9 @@ const DeliveryForm = ({
             >
               <option value="">Choose team mate</option>
               {teamMates.map((teamMate) => (
-                <option key={teamMate.id}>{teamMate.name}</option>
+                <option value={teamMate.id} key={teamMate.id}>
+                  {teamMate.name}
+                </option>
               ))}
             </select>
           </div>
