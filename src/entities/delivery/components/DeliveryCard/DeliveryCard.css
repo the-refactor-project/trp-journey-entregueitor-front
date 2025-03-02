@@ -1,0 +1,23 @@
+.delivery {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 20px;
+  position: relative;
+}
+
+.delivery__links {
+  display: flex;
+  gap: 60px;
+}
+
+.delivery__links-group {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.delivery__action {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}

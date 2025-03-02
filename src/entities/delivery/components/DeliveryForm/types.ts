@@ -1,5 +1,3 @@
 import { NewDelivery } from "../../types";
 
-export type NewDeliveryFormData = {
-  [Key in keyof NewDelivery]: Key extends "week" ? string : NewDelivery[Key];
-};
+export type NewDeliveryFormData = Omit<NewDelivery, "week">;

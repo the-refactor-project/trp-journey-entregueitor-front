@@ -29,7 +29,7 @@ const AppRouter: React.FC = () => {
           }
         />
         <Route
-          path="deliveries/new"
+          path="deliveries/:week/new"
           element={
             <AuthAllowGuard>
               <NewDeliveryPage />

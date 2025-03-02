@@ -2,7 +2,7 @@ import { ComponentProps, PropsWithChildren } from "react";
 import "./Button.css";
 
 interface ButtonProps extends ComponentProps<"button"> {
-  buttonType: "solid" | "inline";
+  buttonType: "solid" | "inline" | "icon";
   size: "big" | "medium" | "small";
 }
 

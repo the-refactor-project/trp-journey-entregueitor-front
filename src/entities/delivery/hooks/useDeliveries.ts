@@ -1,4 +1,4 @@
-import { useNavigate, useSearchParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { NewDelivery } from "../types";
 import useCreateDeliveryMutation from "../mutations/useCreateDeliveryMutation";
 import useSetUiContext from "../../../ui/context/useUiSetContext";
@@ -6,10 +6,9 @@ import useSetUiContext from "../../../ui/context/useUiSetContext";
 const useDeliveries = () => {
   const navigate = useNavigate();
   const { mutateAsync } = useCreateDeliveryMutation();
-  const [searchParams] = useSearchParams();
   const { showInfo } = useSetUiContext();
 
-  const week = searchParams.get("week");
+  const { week } = useParams<{ week: string }>();
 
   const createDelivery = async (newDeliveryData: NewDelivery) => {
     try {
@@ -17,7 +16,7 @@ const useDeliveries = () => {
 
       showInfo("info", "Delivery successfully created");
 
-      navigate("/deliveries/week-" + week);
+      navigate("/deliveries/" + week);
     } catch {
       showInfo("error", "Error on creating delivery");
     }

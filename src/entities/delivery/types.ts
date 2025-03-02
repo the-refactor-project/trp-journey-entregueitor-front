@@ -15,4 +15,10 @@ export interface Delivery {
   date: Date;
 }
 
+export interface DeliveryWithNames extends Delivery {
+  ownerName: string;
+  firstTeammateName?: string;
+  secondTeammateName?: string;
+}
+
 export type NewDelivery = Omit<WithoutId<Delivery>, "date">;

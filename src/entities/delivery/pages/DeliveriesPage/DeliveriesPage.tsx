@@ -1,30 +1,73 @@
 import { Link, useParams } from "react-router";
 import useDeliveriesQuery from "../../queries/useDeliveriesQuery";
+import DeliveriesList from "../../components/DeliveriesList/DeliveriesList";
+import { Id } from "../../../../types";
+import useStudents from "../../../student/queries/useStudents";
+import { useEffect, useState } from "react";
+import { DeliveryWithNames } from "../../types";
+import useAuthGetInfoContext from "../../../../auth/context/useAuthGetInfoContext";
 
 const DeliveriesPage: React.FC = () => {
+  const [deliveries, setDeliveries] = useState<DeliveryWithNames[]>([]);
+
+  const { studentId } = useAuthGetInfoContext();
+
   const { week } = useParams<{ week: string }>();
 
   const weekNumber = Number(week?.split("-")[1]);
 
-  const { data: deliveries } = useDeliveriesQuery(weekNumber);
+  const { data } = useDeliveriesQuery(weekNumber);
+  const { data: students } = useStudents();
+
+  const [canCreate, setCanCreate] = useState(false);
+
+  useEffect(() => {
+    if (!data || !students) {
+      return;
+    }
+
+    setDeliveries(
+      data.map<DeliveryWithNames>((delivery) => {
+        const deliveryOwner = students.find(
+          (student) => delivery.ownerId === student.id
+        );
+
+        return {
+          ...delivery,
+          ownerName: deliveryOwner
+            ? `${deliveryOwner.name} ${deliveryOwner.lastName}`
+            : "",
+        };
+      })
+    );
+  }, [data, students]);
+
+  useEffect(() => {
+    setCanCreate(
+      !deliveries.some((delivery) => delivery.ownerId === studentId)
+    );
+  }, [deliveries, studentId]);
 
   return (
     <>
       <header className="page-header">
         <h2>Deliveries week {weekNumber}</h2>
-        <Link
-          to={`/deliveries/new?week=${weekNumber}`}
-          className="button button--inline button--medium"
-        >
-          New delivery
-        </Link>
+        {canCreate && (
+          <Link
+            to={`/deliveries/${week}/new`}
+            className="button button--inline button--medium"
+          >
+            New delivery
+          </Link>
+        )}
       </header>
       {deliveries && (
-        <ul className="deliveries">
-          {deliveries?.map((delivery) => (
-            <li key={delivery.id}>{delivery.ownerId}</li>
-          ))}
-        </ul>
+        <DeliveriesList
+          deliveries={deliveries}
+          deleteDelivery={(deliveryId: Id) => {
+            console.log(deliveryId);
+          }}
+        />
       )}
     </>
   );

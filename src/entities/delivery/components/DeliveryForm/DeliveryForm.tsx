@@ -1,36 +1,24 @@
 import { useState } from "react";
-import { NewDeliveryFormData } from "./types";
 import Button from "../../../../components/Button/Button";
-import useAuthGetInfoContext from "../../../../auth/context/useAuthGetInfoContext";
 import { Student } from "../../../student/types";
+import { NewDeliveryFormData } from "./types";
 import "./DeliveryForm.css";
 
 interface DeliveryFormProps {
   createDelivery: (deliveryData: NewDeliveryFormData) => void;
-  week: string | null;
   teamMates: Student[];
 }
 
 const DeliveryForm = ({
   createDelivery,
-  week,
   teamMates,
 }: DeliveryFormProps): React.ReactElement => {
-  const { userMaxWeek } = useAuthGetInfoContext();
-
-  const weekNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].filter(
-    (weekNumber) => {
-      return weekNumber <= userMaxWeek;
-    }
-  );
-
   const [deliveryType, setDeliveryType] = useState<"individual" | "team">(
     "individual"
   );
 
   const newBlankDelivery: NewDeliveryFormData = {
     ownerId: 0,
-    week: week ?? "",
     firstTeammateId: 0,
     secondTeammateId: 0,
     sprint1TrelloUrl: "",
@@ -87,35 +75,18 @@ const DeliveryForm = ({
           team
         </label>
       </div>
-      <div className="form__group">
-        <label htmlFor="week" className="form__label">
-          Week:
-        </label>
-        <select
-          id="week"
-          className="form__control"
-          value={newDeliveryData.week}
-          onChange={changeNewDeliveryData}
-          required
-        >
-          <option value="">Choose week number</option>
-          {weekNumbers.map((weekNumber) => (
-            <option key={weekNumber} value={weekNumber}>
-              {weekNumber}
-            </option>
-          ))}
-        </select>
-      </div>
+      <div className="form__group"></div>
       {deliveryType === "team" && (
         <>
           <div className="form__group">
             <label htmlFor="firstTeammateId" className="form__label">
-              Partner 1?
+              Partner 1
             </label>
             <select
               id="firstTeammateId"
               className="form__control"
               value={newDeliveryData.firstTeammateId}
+              required={deliveryType === "team"}
               onChange={changeNewDeliveryData}
             >
               <option value="">Choose team mate</option>

@@ -36,3 +36,17 @@
 .button--medium {
   padding: 10px 20px;
 }
+
+.button--icon {
+  border: 0;
+  background-color: transparent;
+  padding: 0;
+
+  > * {
+    display: block;
+  }
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}

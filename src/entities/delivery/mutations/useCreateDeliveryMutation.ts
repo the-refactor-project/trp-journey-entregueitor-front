@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { fetchWithAuth } from "../../../client/axios";
 import { Delivery, NewDelivery } from "../types";
+import queryClient from "../../../client/queryClient";
 
 const useCreateDeliveryMutation = () => {
   return useMutation({
@@ -10,6 +11,11 @@ const useCreateDeliveryMutation = () => {
         "post",
         newDeliveryData
       );
+    },
+    onSuccess: (_data, delivery) => {
+      queryClient.invalidateQueries({
+        queryKey: ["deliveries", delivery.week],
+      });
     },
   });
 };

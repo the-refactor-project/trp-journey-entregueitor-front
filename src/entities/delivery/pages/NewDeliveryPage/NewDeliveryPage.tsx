@@ -1,16 +1,17 @@
-import { useSearchParams } from "react-router";
+import { useParams } from "react-router";
 import DeliveryForm from "../../components/DeliveryForm/DeliveryForm";
-import { NewDeliveryFormData } from "../../components/DeliveryForm/types";
 import useStudents from "../../../student/queries/useStudents";
 import { NewDelivery } from "../../types";
 import useAuthGetInfoContext from "../../../../auth/context/useAuthGetInfoContext";
 import useDeliveries from "../../hooks/useDeliveries";
+import { NewDeliveryFormData } from "../../components/DeliveryForm/types";
 
 const NewDeliveryPage = (): React.ReactElement => {
   const { studentId } = useAuthGetInfoContext();
-  const [searchParams] = useSearchParams();
 
-  const week = searchParams.get("week");
+  const { week } = useParams<{ week: string }>();
+
+  const weekNumber = week?.split("-")[1];
 
   const { data } = useStudents();
 
@@ -19,7 +20,7 @@ const NewDeliveryPage = (): React.ReactElement => {
   const onCreateDelivery = async (deliveryData: NewDeliveryFormData) => {
     const newDeliveryData: NewDelivery = {
       ...deliveryData,
-      week: Number(deliveryData.week),
+      week: Number(weekNumber),
       ownerId: studentId,
     };
 
@@ -28,13 +29,9 @@ const NewDeliveryPage = (): React.ReactElement => {
 
   return (
     <>
-      <h2>New delivery</h2>
+      <h2>New delivery week {weekNumber}</h2>
       {data && (
-        <DeliveryForm
-          createDelivery={onCreateDelivery}
-          teamMates={data}
-          week={week}
-        />
+        <DeliveryForm createDelivery={onCreateDelivery} teamMates={data} />
       )}
     </>
   );

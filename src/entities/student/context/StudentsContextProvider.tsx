@@ -18,7 +18,6 @@ const StudentsContextProvider: React.FC<PropsWithChildren> = ({ children }) => {
       const user = students.find((student) => student.username === username);
 
       if (user) {
-        console.log(user);
         setStudentId(user.id);
       }
     },
