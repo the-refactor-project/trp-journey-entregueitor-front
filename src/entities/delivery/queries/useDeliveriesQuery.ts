@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Delivery } from "../types";
 import { fetchWithAuth } from "../../../client/axios";
 
-const useDeliveries = (weekNumber: number) => {
+const useDeliveriesQuery = (weekNumber: number) => {
   return useQuery({
     queryKey: ["deliveries", weekNumber],
     queryFn: async () => {
@@ -15,4 +15,4 @@ const useDeliveries = (weekNumber: number) => {
   });
 };
 
-export default useDeliveries;
+export default useDeliveriesQuery;

@@ -15,6 +15,7 @@ import {
 import { useFlagsmith } from "flagsmith/react";
 import AuthGetInfoContext from "./AuthGetInfoContext";
 import AuthSetInfoContext from "./AuthSetInfoContext";
+import { Id } from "../../types";
 
 const AuthContextProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const navigate = useNavigate();
@@ -23,6 +24,7 @@ const AuthContextProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const loggedOutUser: AuthGetInfoContextValue = useMemo(
     () => ({
       hasFinishedChecking: false,
+      studentId: 0,
       isLoggedIn: false,
       username: "",
       userMaxWeek: 0,
@@ -40,9 +42,9 @@ const AuthContextProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [authInfo, setAuthInfo] =
     useState<AuthGetInfoContextValue>(loggedOutUser);
 
-  const login = async () => {
+  const login = useCallback(async () => {
     await signInWithGitHub();
-  };
+  }, []);
 
   const logout = useCallback(async () => {
     await signOut();
@@ -50,12 +52,20 @@ const AuthContextProvider: React.FC<PropsWithChildren> = ({ children }) => {
     setAuthInfo({ ...loggedOutUser, hasFinishedChecking: true });
   }, [flagsmith, loggedOutUser]);
 
+  const setStudentId = useCallback((studentId: Id) => {
+    setAuthInfo((authInfo) => ({
+      ...authInfo,
+      studentId,
+    }));
+  }, []);
+
   const authSetInfo: AuthSetInfoContextValue = useMemo(
     () => ({
       login,
       logout,
+      setStudentId,
     }),
-    [logout]
+    [login, logout, setStudentId]
   );
 
   useEffect(() => {
@@ -68,13 +78,14 @@ const AuthContextProvider: React.FC<PropsWithChildren> = ({ children }) => {
         const isAdmin =
           user?.user_metadata.user_name === "the-refactor-project";
 
-        setAuthInfo({
+        setAuthInfo((authInfo) => ({
+          studentId: authInfo.studentId,
           hasFinishedChecking: true,
           isLoggedIn: true,
           role: isAdmin ? "admin" : "student",
           userMaxWeek: Number(maxWeek),
           username: user?.user_metadata.user_name,
-        });
+        }));
 
         removeHash();
       } catch {

@@ -1,5 +1,5 @@
 import { NewDelivery } from "../../types";
 
-export type NewDeliveryData = {
+export type NewDeliveryFormData = {
   [Key in keyof NewDelivery]: Key extends "week" ? string : NewDelivery[Key];
 };

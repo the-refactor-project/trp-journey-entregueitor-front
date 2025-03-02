@@ -1,0 +1,22 @@
+.info-background {
+  position: fixed;
+  inset: 0;
+  background-color: #fffc;
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.info {
+  padding: 40px;
+  color: #fff;
+}
+
+.info--info {
+  background-color: #2a5507;
+}
+
+.info--error {
+  background-color: #7c0c22;
+}

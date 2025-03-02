@@ -8,7 +8,6 @@ const AuthAllowGuard: React.FC<PropsWithChildren> = ({ children }) => {
 
   useEffect(() => {
     if (hasFinishedChecking && !isLoggedIn) {
-      console.log("FUIG");
       navigate("/login");
     }
   }, [isLoggedIn, hasFinishedChecking, navigate]);

@@ -1,8 +1,9 @@
 import { Outlet } from "react-router";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
-import "./Layout.css";
 import Navigation from "../Navigation/Navigation";
+import Info from "../../ui/components/Info/Info";
+import "./Layout.css";
 
 const Layout: React.FC = () => {
   return (
@@ -17,6 +18,7 @@ const Layout: React.FC = () => {
         </div>
       </div>
       <Footer />
+      <Info />
     </>
   );
 };

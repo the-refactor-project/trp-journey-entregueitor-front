@@ -1,17 +1,29 @@
 import { useSearchParams } from "react-router";
 import DeliveryForm from "../../components/DeliveryForm/DeliveryForm";
-import { NewDeliveryData } from "../../components/DeliveryForm/types";
+import { NewDeliveryFormData } from "../../components/DeliveryForm/types";
 import useStudents from "../../../student/queries/useStudents";
+import { NewDelivery } from "../../types";
+import useAuthGetInfoContext from "../../../../auth/context/useAuthGetInfoContext";
+import useDeliveries from "../../hooks/useDeliveries";
 
 const NewDeliveryPage = (): React.ReactElement => {
+  const { studentId } = useAuthGetInfoContext();
   const [searchParams] = useSearchParams();
-
-  const { data } = useStudents();
 
   const week = searchParams.get("week");
 
-  const onCreateDelivery = async (deliveryData: NewDeliveryData) => {
-    console.log(deliveryData);
+  const { data } = useStudents();
+
+  const { createDelivery } = useDeliveries();
+
+  const onCreateDelivery = async (deliveryData: NewDeliveryFormData) => {
+    const newDeliveryData: NewDelivery = {
+      ...deliveryData,
+      week: Number(deliveryData.week),
+      ownerId: studentId,
+    };
+
+    await createDelivery(newDeliveryData);
   };
 
   return (

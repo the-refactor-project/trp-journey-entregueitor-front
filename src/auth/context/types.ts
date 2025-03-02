@@ -1,7 +1,9 @@
+import { Id } from "../../types";
 import { Role } from "../types";
 
 export interface AuthGetInfoContextValue {
   hasFinishedChecking: boolean;
+  studentId: Id;
   isLoggedIn: boolean;
   username: string;
   userMaxWeek: number;
@@ -11,4 +13,5 @@ export interface AuthGetInfoContextValue {
 export interface AuthSetInfoContextValue {
   login: () => void;
   logout: () => void;
+  setStudentId: (studentId: Id) => void;
 }

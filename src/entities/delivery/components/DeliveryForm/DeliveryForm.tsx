@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { NewDeliveryData } from "./types";
+import { NewDeliveryFormData } from "./types";
 import Button from "../../../../components/Button/Button";
 import useAuthGetInfoContext from "../../../../auth/context/useAuthGetInfoContext";
 import { Student } from "../../../student/types";
 import "./DeliveryForm.css";
 
 interface DeliveryFormProps {
-  createDelivery: (deliveryData: NewDeliveryData) => void;
+  createDelivery: (deliveryData: NewDeliveryFormData) => void;
   week: string | null;
   teamMates: Student[];
 }
@@ -28,7 +28,7 @@ const DeliveryForm = ({
     "individual"
   );
 
-  const newBlankDelivery: NewDeliveryData = {
+  const newBlankDelivery: NewDeliveryFormData = {
     ownerId: 0,
     week: week ?? "",
     firstTeammateId: 0,

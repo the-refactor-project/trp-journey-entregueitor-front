@@ -10,17 +10,20 @@ import queryClient from "./client/queryClient";
 import StudentsContextProvider from "./entities/student/context/StudentsContextProvider";
 import "@fontsource-variable/roboto-flex/index.css";
 import "./styles/styles.css";
+import UiContextProvider from "./ui/context/UiContextProvider";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <FlagsmithProvider flagsmith={flagsmith}>
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
-          <StudentsContextProvider>
-            <AuthContextProvider>
-              <AppRouter />
-            </AuthContextProvider>
-          </StudentsContextProvider>
+          <AuthContextProvider>
+            <StudentsContextProvider>
+              <UiContextProvider>
+                <AppRouter />
+              </UiContextProvider>
+            </StudentsContextProvider>
+          </AuthContextProvider>
         </BrowserRouter>
       </QueryClientProvider>
     </FlagsmithProvider>
