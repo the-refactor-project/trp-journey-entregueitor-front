@@ -2,7 +2,7 @@ import axios from "axios";
 import { supabase } from "../auth/supabase/supabase";
 
 export const axiosInstance = axios.create({
-  baseURL: `${import.meta.env.VITE_API_URL}/api/journey-entregueitor202502`,
+  baseURL: import.meta.env.VITE_API_URL,
   headers: {
     "x-api-key": import.meta.env.VITE_APP_NAME,
   },
