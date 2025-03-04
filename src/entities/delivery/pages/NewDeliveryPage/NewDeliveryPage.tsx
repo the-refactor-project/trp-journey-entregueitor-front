@@ -1,10 +1,12 @@
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
+import { useEffect } from "react";
 import DeliveryForm from "../../components/DeliveryForm/DeliveryForm";
 import useStudentsQuery from "../../../student/queries/useStudentsQuery";
 import { NewDelivery } from "../../types";
 import useAuthGetInfoContext from "../../../../auth/context/useAuthGetInfoContext";
 import useDeliveries from "../../hooks/useDeliveries";
 import { NewDeliveryFormData } from "../../components/DeliveryForm/types";
+import useDeliveriesQuery from "../../queries/useDeliveriesQuery";
 
 const NewDeliveryPage = (): React.ReactElement => {
   const { studentId } = useAuthGetInfoContext();
@@ -13,7 +15,25 @@ const NewDeliveryPage = (): React.ReactElement => {
 
   const weekNumber = week?.split("-")[1];
 
+  const { data: deliveries } = useDeliveriesQuery(Number(weekNumber));
+
+  const navigate = useNavigate();
+
   const { data } = useStudentsQuery();
+
+  useEffect(() => {
+    if (
+      deliveries &&
+      deliveries.some(
+        (delivery) =>
+          delivery.ownerId === studentId ||
+          delivery.firstTeammateId === studentId ||
+          delivery.secondTeammateId === studentId
+      )
+    ) {
+      navigate("/deliveries/week-" + weekNumber);
+    }
+  }, [deliveries, navigate, studentId, weekNumber]);
 
   const { createDelivery } = useDeliveries();
 

@@ -77,7 +77,12 @@ const DeliveriesPage: React.FC = () => {
 
   useEffect(() => {
     setCanCreate(
-      !deliveries.some((delivery) => delivery.ownerId === studentId)
+      !deliveries.some(
+        (delivery) =>
+          delivery.ownerId === studentId ||
+          delivery.firstTeammateId === studentId ||
+          delivery.secondTeammateId === studentId
+      )
     );
   }, [deliveries, studentId]);
 
