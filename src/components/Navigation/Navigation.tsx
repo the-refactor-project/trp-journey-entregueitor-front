@@ -5,11 +5,9 @@ import "./Navigation.css";
 const Navigation: React.FC = () => {
   const { isLoggedIn, userMaxWeek, role } = useAuthGetInfoContext();
 
-  const weekNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].filter(
-    (weekNumber) => {
-      return weekNumber <= userMaxWeek;
-    }
-  );
+  const weekNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9].filter((weekNumber) => {
+    return weekNumber <= userMaxWeek;
+  });
 
   const [searchParams] = useSearchParams();
 
@@ -34,6 +32,18 @@ const Navigation: React.FC = () => {
             </NavLink>
           </li>
         ))}
+        {userMaxWeek >= 10 && (
+          <li key="pf" className="main-navigation__number">
+            <NavLink
+              to={`/deliveries/final-project${
+                role === "admin" ? "?student=" + student : ""
+              }`}
+              className="week-number"
+            >
+              FP
+            </NavLink>
+          </li>
+        )}
       </ul>
     </nav>
   );

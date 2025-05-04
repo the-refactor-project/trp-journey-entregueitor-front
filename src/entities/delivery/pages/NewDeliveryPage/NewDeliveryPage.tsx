@@ -13,7 +13,14 @@ const NewDeliveryPage = (): React.ReactElement => {
 
   const { week } = useParams<{ week: string }>();
 
-  const weekNumber = week?.split("-")[1];
+  const finalProjectWeekNumber = 10;
+
+  const weekNumber =
+    week?.toLowerCase() === "final-project"
+      ? finalProjectWeekNumber
+      : Number(week?.split("-")[1]);
+
+  const isFinalProject = weekNumber === finalProjectWeekNumber;
 
   const { data: deliveries } = useDeliveriesQuery(Number(weekNumber));
 
@@ -59,7 +66,11 @@ const NewDeliveryPage = (): React.ReactElement => {
     <>
       <h2>New delivery week {weekNumber}</h2>
       {data && (
-        <DeliveryForm createDelivery={onCreateDelivery} teamMates={data} />
+        <DeliveryForm
+          createDelivery={onCreateDelivery}
+          teamMates={data}
+          isFinalProject={isFinalProject}
+        />
       )}
     </>
   );

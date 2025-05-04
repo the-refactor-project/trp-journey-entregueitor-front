@@ -18,7 +18,12 @@ const DeliveriesPage: React.FC = () => {
 
   const { week } = useParams<{ week: string }>();
 
-  const weekNumber = Number(week?.split("-")[1]);
+  const finalProjectWeekNumber = 10;
+
+  const weekNumber =
+    week?.toLowerCase() === "final-project"
+      ? finalProjectWeekNumber
+      : Number(week?.split("-")[1]);
 
   const { mutateAsync } = useDeleteDeliveryMutation(weekNumber);
 
@@ -89,7 +94,10 @@ const DeliveriesPage: React.FC = () => {
   return (
     <>
       <header className="page-header">
-        <h2>Deliveries week {weekNumber}</h2>
+        <h2>
+          Deliveries{" "}
+          {weekNumber === 10 ? "final project" : `week ${weekNumber}`}
+        </h2>
         {canCreate && (
           <Link
             to={`/deliveries/${week}/new`}

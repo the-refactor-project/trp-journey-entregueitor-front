@@ -24,6 +24,10 @@ const DeliveryCard: React.FC<DeliveryCardProps> = ({
     backProductionUrl,
     sprint1TrelloUrl,
     sprint2TrelloUrl,
+    sprint3TrelloUrl,
+    sprint4TrelloUrl,
+    figmaUrl,
+    projectName,
   },
   studentId,
   deleteDelivery,
@@ -34,6 +38,7 @@ const DeliveryCard: React.FC<DeliveryCardProps> = ({
         {ownerName}
         {!!firstTeammateId && ` - ${firstTeammateName}`}
         {!!secondTeammateId && ` - ${secondTeammateName}`}
+        {!!projectName && `: ${projectName}`}
       </h3>
       <ul className="delivery__links">
         {(!!frontRepoUrl || !!frontProductionUrl) && (
@@ -88,6 +93,33 @@ const DeliveryCard: React.FC<DeliveryCardProps> = ({
                 </a>
               </li>
             )}
+          </div>
+        )}
+        {(!!sprint3TrelloUrl || !!sprint4TrelloUrl) && (
+          <div className="delivery__links-group">
+            {!!sprint3TrelloUrl && (
+              <li>
+                <a href={sprint3TrelloUrl} target="_blank">
+                  Sprint 3 Trello
+                </a>
+              </li>
+            )}
+            {!!sprint4TrelloUrl && (
+              <li>
+                <a href={sprint4TrelloUrl} target="_blank">
+                  Sprint 4 Trello
+                </a>
+              </li>
+            )}
+          </div>
+        )}
+        {!!figmaUrl && (
+          <div className="delivery__links-group">
+            <li>
+              <a href={figmaUrl} target="_blank">
+                Figma
+              </a>
+            </li>
           </div>
         )}
       </ul>

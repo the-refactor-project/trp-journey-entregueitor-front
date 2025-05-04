@@ -12,6 +12,10 @@ export interface Delivery {
   backProductionUrl?: string;
   sprint1TrelloUrl?: string;
   sprint2TrelloUrl?: string;
+  sprint3TrelloUrl?: string;
+  sprint4TrelloUrl?: string;
+  figmaUrl?: string;
+  projectName?: string;
   date: Date;
 }
 

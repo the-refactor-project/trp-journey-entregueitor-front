@@ -7,11 +7,13 @@ import "./DeliveryForm.css";
 interface DeliveryFormProps {
   createDelivery: (deliveryData: NewDeliveryFormData) => void;
   teamMates: Student[];
+  isFinalProject?: boolean;
 }
 
 const DeliveryForm = ({
   createDelivery,
   teamMates,
+  isFinalProject = false,
 }: DeliveryFormProps): React.ReactElement => {
   const [deliveryType, setDeliveryType] = useState<"individual" | "team">(
     "individual"
@@ -27,6 +29,8 @@ const DeliveryForm = ({
     frontProductionUrl: "",
     backRepoUrl: "",
     backProductionUrl: "",
+    figmaUrl: "",
+    projectName: "",
   };
 
   const [newDeliveryData, setNewDeliveryData] = useState(newBlankDelivery);
@@ -51,31 +55,55 @@ const DeliveryForm = ({
 
   return (
     <form className="form" onSubmit={submitForm}>
-      <div className="form__group">
-        <label>
-          <input
-            type="radio"
-            name="deliveryType"
-            id="deliveryType"
-            value="individual"
-            checked={deliveryType === "individual"}
-            onChange={() => setDeliveryType("individual")}
-          />
-          individual
-        </label>
-        <label>
-          <input
-            type="radio"
-            name="deliveryType"
-            id="deliveryType"
-            value="team"
-            checked={deliveryType === "team"}
-            onChange={() => setDeliveryType("team")}
-          />
-          team
-        </label>
-      </div>
-      <div className="form__group"></div>
+      {isFinalProject ? (
+        <>
+          <div className="form__group">
+            <label htmlFor="projectName">Project name</label>
+            <input
+              type="text"
+              id="projectName"
+              className="form__control"
+              value={newDeliveryData.projectName}
+              onChange={changeNewDeliveryData}
+            />
+          </div>
+          <div className="form__group">
+            <label htmlFor="figmaUrl">Figma URL</label>
+            <input
+              type="url"
+              id="figmaUrl"
+              className="form__control"
+              value={newDeliveryData.figmaUrl}
+              onChange={changeNewDeliveryData}
+            />
+          </div>
+        </>
+      ) : (
+        <div className="form__group">
+          <label>
+            <input
+              type="radio"
+              name="deliveryType"
+              id="deliveryType"
+              value="individual"
+              checked={deliveryType === "individual"}
+              onChange={() => setDeliveryType("individual")}
+            />
+            individual
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="deliveryType"
+              id="deliveryType"
+              value="team"
+              checked={deliveryType === "team"}
+              onChange={() => setDeliveryType("team")}
+            />
+            team
+          </label>
+        </div>
+      )}
       {deliveryType === "team" && (
         <>
           <div className="form__group">
@@ -189,6 +217,34 @@ const DeliveryForm = ({
           onChange={changeNewDeliveryData}
         />
       </div>
+      {isFinalProject && (
+        <>
+          <div className="form__group">
+            <label htmlFor="sprint3TrelloUrl" className="form__label">
+              Sprint 3 Trello URL
+            </label>
+            <input
+              type="url"
+              id="sprint3TrelloUrl"
+              className="form__control"
+              value={newDeliveryData.sprint3TrelloUrl}
+              onChange={changeNewDeliveryData}
+            />
+          </div>
+          <div className="form__group">
+            <label htmlFor="sprint4TrelloUrl" className="form__label">
+              Sprint 4 Trello URL
+            </label>
+            <input
+              type="url"
+              id="sprint4TrelloUrl"
+              className="form__control"
+              value={newDeliveryData.sprint4TrelloUrl}
+              onChange={changeNewDeliveryData}
+            />
+          </div>
+        </>
+      )}
       <div className="form__group">
         <Button buttonType="solid" size="medium" type="submit">
           Create
